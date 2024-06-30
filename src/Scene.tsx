@@ -1,17 +1,31 @@
-import { useMemo, useRef, useState } from "react";
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useState } from "react";
 import { EffectComposer, Outline, Select, Selection } from "@react-three/postprocessing";
+import { BlendFunction, Resizer, KernelSize } from "postprocessing";
+
 import * as THREE from "three";
 import Background from "./components/Background.tsx";
 import useRespondAspectChange from "./utils/useRespondAspectChange.ts";
-import useNode from "./hooks/useNode.ts";
-
+import { StandardMesh } from "./components/StandardMesh.tsx";
+import { useThree } from "@react-three/fiber";
+import { FPSLimiter } from "./FPSLimiter.tsx";
 export default function Scene() {
     useRespondAspectChange();
+    return (
+        <>
+			<FPSLimiter fps={50} />
+            <InteractableMeshes />
+            <StandardMesh name="floor" />
+            <Background name="background" texturePath="textures/solarium5.jpg" />
+            <Background name="background001" texturePath="textures/solarium5.jpg" />
+        </>
+    );
+}
+function InteractableMeshes() {
     const [selected, setSelected] = useState<string | null>(null);
     const [hovered, setHovered] = useState<string | null>(null);
 
-    const items = ["window", "window001", "desk", "lamp"].map((name) => (
+    const meshNames = ["window", "window001", "desk", "lamp"];
+    const items = meshNames.map((name) => (
         <Select
             enabled={selected === name || hovered === name}
             onPointerOver={() => setHovered(name)}
@@ -21,86 +35,36 @@ export default function Scene() {
             <StandardMesh name={name} />
         </Select>
     ));
+
     return (
-        <>
-			<Selection>
-				{items}
-				<Effects selected={selected} hovered={hovered} />
-			</Selection>
-			<StandardMesh name="window001" />
-			<StandardMesh name="floor" />
-			<Background name="background" texturePath="textures/solarium5.jpg" />
-			<Background name="background001" texturePath="textures/solarium5.jpg" />
-        </>
+        <Selection>
+            {items}
+            <Effects selected={selected} hovered={hovered} />
+        </Selection>
     );
 }
 
-
 function Effects({ selected, hovered }: { selected: string | null; hovered: string | null }) {
-    const selectedObjects = selected ? [selected] : [];
+	const { size } = useThree()
+
+	const selectedObjects = selected ? [selected] : [];
     const hoveredObjects = hovered && hovered !== selected ? [hovered] : selectedObjects;
+    const visibleEdgeColor =
+        hoveredObjects.length > 0
+            ? hoveredObjects[0] === selected
+                ? 0xffa500
+                : 0xffffff
+            : 0xffffff;
+
     return (
-        <EffectComposer multisampling={0} autoClear={false}>
+        <EffectComposer stencilBuffer multisampling={4} autoClear={false}>
             <Outline
                 blur
                 edgeStrength={10}
                 width={1000}
-                visibleEdgeColor={
-                    hoveredObjects.length > 0
-                        ? hoveredObjects[0] === selected
-                            ? 0xffa500
-                            : 0xffffff
-                        : 0xffffff
-                }
+				height={1000} // lower render height for better performance
+                visibleEdgeColor={visibleEdgeColor}
             />
         </EffectComposer>
     );
 }
-
-type StandardMeshProps = {
-    name: string;
-    texture?: THREE.Texture | null;
-    isVisible?: boolean;
-    onClick?: () => void;
-};
-export const StandardMesh = ({
-    name,
-    texture = null,
-    isVisible = true,
-    onClick,
-    ...props
-}: StandardMeshProps) => {
-    const mesh = useNode(name);
-    const meshRef = useRef(mesh);
-
-    const material = useMemo(() => {
-        if (texture) {
-            const originalColor = (mesh.material as THREE.MeshStandardMaterial).color;
-            texture.flipY = false;
-            texture.colorSpace = THREE.SRGBColorSpace;
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-
-            return new THREE.MeshStandardMaterial({
-                color: originalColor,
-                map: texture,
-                depthTest: true,
-                ...props,
-            });
-        }
-    }, [texture]);
-
-    return (
-        <mesh
-            castShadow
-            receiveShadow
-            ref={meshRef}
-            geometry={mesh.geometry}
-            material={texture ? material : mesh.material}
-            position={mesh.position}
-            rotation={mesh.rotation}
-            name={mesh.name}
-            {...props}
-        />
-    );
-};
