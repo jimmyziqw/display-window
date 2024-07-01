@@ -13,9 +13,9 @@ const defaultSelectableInfo: SelectableInfo = {
 const selectableInfos: Record<string, Partial<SelectableInfo>> = {
     desk: { colors: ["pink", "#786e65", "#d5d3d6", "#999fa8"]},
     lamp: { colors: ["#5f6a5e", "#3d5466", "#79a9d2", "#a7ced3"] },
-    laptop: { colors: ["yellow", "blue"] },
-    cup: { colors: ["yellow", "blue"] },
-    chair : { colors: ["yellow", "blue"] }
+    blossomBase: { colors: ["#d5d3d6", "#999fa8"] },
+    coffeeCup: { colors: ["yellow", "blue"] },
+    coffeePlate: { colors: ["#5f6a5e", "#3d5466", "#79a9d2", "#a7ced3"] }
 };
 const getSelectableInfo = (name: string): SelectableInfo => {
     const info = selectableInfos[name] || {};
@@ -31,18 +31,16 @@ export function Carousel({ name, setColor }: { name: string; setColor: (color: s
     });
     const radius = 1.0;
     const { colors } = getSelectableInfo(name);
-    const cardSize = 0.2;
     const angle = (2 * Math.PI) / colors.length;
     console.log("color", colors);
 
     return (
-        <group ref={groupRef} position={[0, -0.5, 0]} rotation={[0, 0, Math.PI / 20]}>
+        <group ref={groupRef} position={[0, -0.3, 0]} rotation={[0, 0, Math.PI / 18]}>
             {colors.map((color, idx) => (
                 <ColorCard
                     idx={idx}
                     angle={angle}
                     radius={radius}
-                    cardSize={cardSize}
                     cardColor={color}
                     setMeshColor={setColor}
                 />
@@ -51,21 +49,22 @@ export function Carousel({ name, setColor }: { name: string; setColor: (color: s
     );
 }
 
-function ColorCard({ idx, angle, radius, cardSize, cardColor, setMeshColor }: any) {
+function ColorCard({ idx, angle, radius, cardColor, setMeshColor }: any) {
     const meshRef = useRef<THREE.Mesh>(null);
     const clickHandler = () => {
         setMeshColor(cardColor);
     };
     return (
-        <mesh
+        <mesh 
             key={idx}
             ref={meshRef}
             position={[Math.cos(angle * idx) * radius, 0, Math.sin(angle * idx) * radius]}
             rotation={[0, Math.PI / 2 - angle * idx, Math.PI / 2]}
             onClick={clickHandler}
+            onPointerOver={()=>{ document.body.style.cursor = "pointer"}}
         >
-            <planeGeometry args={[cardSize, cardSize, 1, 1]} />
-            <meshBasicMaterial color={cardColor} side={THREE.DoubleSide} />
+            <sphereGeometry args={[0.1, 32, 32]} />
+            <meshStandardMaterial color={cardColor} side={THREE.DoubleSide} />
         </mesh>
     );
 }

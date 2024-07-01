@@ -4,19 +4,19 @@ import useNode from "../hooks/useNode.ts";
 
 type StandardMeshProps = {
   name: string;
-  color: string | null;
-  selected: string | null;
+  color?: string | null;
+  selected?: string | null;
   texture?: THREE.Texture | null;
 };
 
 export const StandardMesh = ({ name, color, selected, texture = null }: StandardMeshProps) => {
   const mesh = useNode(name);
   const meshRef = useRef(mesh);
-  const [currentColor, setCurrentColor] = useState<string | null>(color);
+  const [currentColor, setCurrentColor] = useState<string | null>(null);
 
   // Update color only if this mesh is the selected one
   useEffect(() => {
-    if (name === selected) {
+    if (name === selected && color) {
       setCurrentColor(color);
     }
   }, [color, name, selected]);
