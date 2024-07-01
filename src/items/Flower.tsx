@@ -1,18 +1,16 @@
-import useParticlizing from "../hooks/useParticlizing";
 import useNode from "../hooks/useNode";
 import ParticleSystem from "../components/ParticleSystem";
 
-export default function Flower({ span }: { span: number[] }) {
+export default function Flower() {
   const leaf = useNode("flowerLeaf1");
   const base = useNode("flowerStem");
   const other = useNode("flowerPot");
 
-  const { isVisible } = useParticlizing(span, 0);
 
   if (!leaf || !base || !other) return null;
 
   return (
-    <group visible={isVisible}>
+    <group >
       <ParticleSystem
         baseObject={base}
         particle={leaf}

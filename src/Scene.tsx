@@ -3,8 +3,8 @@ import { EffectComposer, Outline, Select, Selection } from "@react-three/postpro
 import Background from "./components/Background.tsx";
 import useRespondAspectChange from "./utils/useRespondAspectChange.ts";
 import { StandardMesh } from "./components/StandardMesh.tsx";
+import { Carousel } from "./components/Carousel";
 import { ThreeEvent } from "@react-three/fiber";
-import { Carousel } from "./components/Carousel.tsx";
 import { debounce } from "lodash";
 
 export default function Scene() {
@@ -40,7 +40,7 @@ function InteractableMeshes() {
         debouncedSetHovered(name);
     };
 
-    const pointerOutHandler = (e: ThreeEvent<PointerEvent>) => {
+    const pointerOutHandler = () => {
         setHovered(null);
         debouncedSetHovered.cancel();
         document.body.style.cursor = "default";

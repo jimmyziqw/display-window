@@ -1,6 +1,6 @@
 import { useThree } from "@react-three/fiber";
 import { useEffect } from "react";
-
+import * as THREE from 'three';
 export default function useRespondAspectChange() {
     const { camera, size } = useThree();
     useEffect(() => {

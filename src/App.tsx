@@ -1,11 +1,9 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, Suspense, useState } from "react";
-import useStats from "./utils/useStats.ts";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import { Suspense} from "react";
+import {  Preload, useGLTF } from "@react-three/drei";
 // import CustomControl from "./utils/CustomControl.tsx";
 import Scene from "./Scene.tsx";
 import gsap from "gsap";
-import Loader from "./utils/Loader.tsx";
 import DirectionalLight from "./components/DirectionalLight.tsx";
 
 useGLTF.preload("models/model.glb");
