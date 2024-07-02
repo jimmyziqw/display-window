@@ -12,24 +12,36 @@ on:
 permissions:
   contents: write  # This ensures the workflow has write permissions
 
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # or your default branch
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout the repository
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: '18'  # specify your node version
 
       - name: Install dependencies
         run: npm install
 
       - name: Build the project
         run: npm run build
+
+      - name: Modify index.html paths
+        run: |
+          sed -i 's|<script type="module" crossorigin src="/assets/index-Dd1PkVfk.js"></script>|<script type="module" crossorigin src="./assets/index-Dd1PkVfk.js"></script>|' ./dist/index.html
+          sed -i 's|<link rel="stylesheet" crossorigin href="/assets/index-BuU2DAFO.css">|<link rel="stylesheet" crossorigin href="./assets/index-BuU2DAFO.css">|' ./dist/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
