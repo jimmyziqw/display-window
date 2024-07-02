@@ -1,7 +1,7 @@
 {
   "name": "display-window",
   "private": true,
-  "homepage": "https://jimmyziqw.github.io/window-display",
+  "homepage": "https://jimmyziqw.github.io/window-display/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
