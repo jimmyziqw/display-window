@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import useNode from "../hooks/useNode.ts";
+import useNode from "../utils/useNode.ts";
 
 type StandardMeshProps = {
   name: string;
