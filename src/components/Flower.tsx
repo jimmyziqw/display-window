@@ -1,5 +1,5 @@
-import useNode from "../hooks/useNode";
-import ParticleSystem from "../components/ParticleSystem";
+import useNode from "../utils/useNode";
+import ParticleSystem from "./ParticleSystem";
 
 export default function Flower() {
   const leaf = useNode("flowerLeaf1");

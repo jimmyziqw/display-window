@@ -6,7 +6,8 @@ import { StandardMesh } from "./components/StandardMesh.tsx";
 import { Carousel } from "./components/Carousel";
 import { ThreeEvent } from "@react-three/fiber";
 import { debounce } from "lodash";
-
+import { Text } from "@react-three/drei";
+import { ArrowHelper } from "three";
 export default function Scene() {
     useRespondAspectChange();
     return (
@@ -85,11 +86,21 @@ function Selectable({
             >
                 <StandardMesh name={name} color={color} selected={selected} />
             </Select>
+            {/* {hovered === name && < DimensionText args={[1,2]}/>} */}
             {selected === name && <Carousel name={name} setColor={setColor} />}
         </>
     );
 }
-
+// function DimensionText({ args }: { args: [number, number] }) {
+//     return (
+//         <>
+//             <ArrowHelper></ArrowHelper>
+//             <Text color="white" anchorX="center">
+//                 {args}
+//             </Text>
+//         </>
+//     );
+// }
 function Effects({ selected, hovered }: { selected: string | null; hovered: string | null }) {
     const selectedObjects = selected ? [selected] : [];
     const hoveredObjects = hovered && hovered !== selected ? [hovered] : selectedObjects;
@@ -106,7 +117,7 @@ function Effects({ selected, hovered }: { selected: string | null; hovered: stri
                 blur
                 edgeStrength={10}
                 width={1000}
-                height={1000} 
+                height={1000}
                 visibleEdgeColor={visibleEdgeColor}
             />
         </EffectComposer>

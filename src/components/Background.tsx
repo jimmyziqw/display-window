@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useTexture } from "@react-three/drei";
 import backgroundMaterial from "../materials/backgroundMaterial.ts";
-import useNode from "../hooks/useNode.ts";
+import useNode from "../utils/useNode.ts";
 import * as THREE from "three";
 
 type objectSetProps = {

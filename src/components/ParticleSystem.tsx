@@ -1,25 +1,31 @@
-import { useMemo } from 'react';
-import * as THREE from 'three';
-import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js';
+import { useMemo } from "react";
+import * as THREE from "three";
+import { MeshSurfaceSampler } from "three/addons/math/MeshSurfaceSampler.js";
 //https://github.com/mrdoob/three.js/blob/master/examples/webgl_instancing_scatter.html
-
-
 
 type ParticleSystemProp = {
     baseObject: THREE.Mesh;
     particle: THREE.Mesh;
     instanceNumber?: number;
-    instanceRotation?: THREE.Euler|[number,number,number];
+    instanceRotation?: THREE.Euler | [number, number, number];
     [key: string]: any;
 };
 
-export default function ParticleSystem({ baseObject, particle, instanceRotation = [0, 0, 0], instanceNumber = 100, ...props }: ParticleSystemProp) {
-    
+export default function ParticleSystem({
+    baseObject,
+    particle,
+    instanceRotation = [0, 0, 0],
+    instanceNumber = 100,
+}: ParticleSystemProp) {
     const instances = useMemo(() => {
-            const instances = new THREE.InstancedMesh(particle.geometry, new THREE.MeshStandardMaterial({side:THREE.DoubleSide}), instanceNumber);
-            sampleInstanceTransformations(baseObject, instances, instanceNumber);
+        const instances = new THREE.InstancedMesh(
+            particle.geometry,
+            new THREE.MeshStandardMaterial({ side: THREE.DoubleSide }),
+            instanceNumber
+        );
+        sampleInstanceTransformations(baseObject, instances, instanceNumber);
         return instances;
-    }, [])
+    }, []);
 
     return (
         <instancedMesh
@@ -27,42 +33,35 @@ export default function ParticleSystem({ baseObject, particle, instanceRotation 
             geometry={instances.geometry}
             material={instances.material}
             count={instances.count}
-            name = "flowers"
-            {...props}
+            name="flowers"
         />
-            
-
     );
 }
 
-
-function sampleInstanceTransformations(baseObject: THREE.Mesh, instance: THREE.InstancedMesh, instanceNumber:number) {
+function sampleInstanceTransformations(
+    baseObject: THREE.Mesh,
+    instance: THREE.InstancedMesh,
+    instanceNumber: number
+) {
     // creating dummy is easier to update instanceMatrix
     const dummy = new THREE.Object3D();
+    const samplerMesh = new MeshSurfaceSampler(baseObject).build();
+    const _position = new THREE.Vector3();
+    const _normal = new THREE.Vector3();
 
-	// generate position and rotations relative to base object
-	const samplerMesh = new MeshSurfaceSampler(baseObject).build(); 
-	
-	const _position = new THREE.Vector3();
-	const _normal = new THREE.Vector3();
+    for (let i = 0; i < instanceNumber; i++) {
+        samplerMesh.sample(_position, _normal);
 
-	for (let i = 0; i < instanceNumber; i++) {
-		samplerMesh.sample(_position, _normal);
-        //_normal.add( _position );
-        
-        dummy.position.copy( _position );
-        // dummy.scale.set( scales[ i ], scales[ i ], scales[ i ] );
-        dummy.lookAt( _normal );
+        dummy.position.copy(_position);
+        dummy.lookAt(_normal);
         dummy.updateMatrix();
-        instance.setMatrixAt( i, dummy.matrix );
-	}
-    
+        instance.setMatrixAt(i, dummy.matrix);
+    }
+
     instance.instanceMatrix.needsUpdate = true;
 
-    return;  
-
+    return;
 }
-
 
 // function calculateRotation(normal: THREE.Vector3) {
 //   // Assuming the default "up" direction is Y-axis
