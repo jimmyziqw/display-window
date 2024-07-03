@@ -37,7 +37,7 @@ export default function App() {
 
 function flatCenter(x: number, cameraMoveThreshold = 0.3) {
     //       ___/
-    //      /
+    //      / 
     if (x >= -1 && x < -cameraMoveThreshold) {
         return x + cameraMoveThreshold;
     } else if (x >= -cameraMoveThreshold && x <= cameraMoveThreshold) {
@@ -50,12 +50,11 @@ function flatCenter(x: number, cameraMoveThreshold = 0.3) {
 }
 
 function CameraControl() {
-    //pointer xy are NDC in [-1,1]
+    //pointer xy in [-1,1]
     //center area has no movement control, product preview area,
     //pherial area control camera orbital motion
     useFrame((state, _) => {
-        const targetPosition = {
-            
+        const targetPosition = {    
             x: -flatCenter(state.pointer.x) / 2,
             y: -flatCenter(state.pointer.y) + 0.8 / 2,
             z: 4.0,

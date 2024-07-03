@@ -59,7 +59,7 @@ function ColorCard({ idx, angle, radius, cardColor, setMeshColor }: any) {
             onClick={() => {setMeshColor(cardColor);}}
             onPointerOver={() => { document.body.style.cursor = "pointer";}}
         >
-            <sphereGeometry args={[0.1, 32, 32]} />
+            <sphereGeometry args={[0.1, 24, 24]} />
             <meshStandardMaterial color={cardColor} side={THREE.DoubleSide} />
         </mesh>
     );

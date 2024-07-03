@@ -7,7 +7,6 @@ import * as THREE from "three";
 type objectSetProps = {
     name: string;
     texturePath: string;
-    // transparent?: boolean;
 };
 
 export default function Background({ name, texturePath }: objectSetProps) {

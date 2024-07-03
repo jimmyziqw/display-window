@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import useNode from "../utils/useNode.ts";
 
@@ -14,7 +14,7 @@ export const StandardMesh = ({ name, color, selected, texture = null }: Standard
   const meshRef = useRef(mesh);
   const [currentColor, setCurrentColor] = useState<string | null>(null);
 
-  // Update color only if this mesh is the selected one
+  // update color only if this mesh is the selected one
   useEffect(() => {
     if (name === selected && color) {
       setCurrentColor(color);
@@ -57,4 +57,3 @@ export const StandardMesh = ({ name, color, selected, texture = null }: Standard
   );
 };
 
-export const mStandardMesh = React.memo(StandardMesh);
