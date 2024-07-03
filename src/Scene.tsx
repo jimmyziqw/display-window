@@ -14,7 +14,9 @@ export default function Scene() {
             <InteractableMeshes />
             <StandardMesh name="floor" />
             <StandardMesh name="window" />
-            <StandardMesh name="window001" />
+            <StandardMesh name="windowFrame" />
+            <StandardMesh name="windowFrame001" />
+            <StandardMesh name="windowFrame002" />
             <StandardMesh name="blossomFlower" />
             <StandardMesh name="blossomStem" />
 

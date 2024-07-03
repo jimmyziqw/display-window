@@ -1,7 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Suspense} from "react";
 import {  Preload, useGLTF } from "@react-three/drei";
-// import CustomControl from "./utils/CustomControl.tsx";
 import Scene from "./Scene.tsx";
 import gsap from "gsap";
 import DirectionalLight from "./components/DirectionalLight.tsx";
