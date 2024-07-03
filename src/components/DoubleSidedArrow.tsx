@@ -11,10 +11,7 @@ const color = "white";
 const centerPosition = new THREE.Vector3(0, 0, 0);
 
 export function BoxDimension({name}) {
-    // const minCoor = [0,0,0]
-    // const maxCoor = [1,1,1]
-    const padding = 0.02;
-    // const centerCoor = []
+    const padding = 0.05;
     const {scene} = useThree()
     const mesh = scene.getObjectByName(name)
     if (!mesh) return null
@@ -30,8 +27,8 @@ export function BoxDimension({name}) {
    
     return (
         <>
-            <DoubleSidedArrow content="h" length={width} position={[(maxPoint.x+minPoint.x)*0.5,maxPoint.y+padding,0]}/>
-            <DoubleSidedArrow content="v" length={height} rotation={[0,0, -Math.PI/2]}/>
+            <DoubleSidedArrow length={width} position={[(maxPoint.x+minPoint.x)*0.5,maxPoint.y+padding,0]}/>
+            <DoubleSidedArrow length={height} position={[maxPoint.x+padding,(maxPoint.y+minPoint.y)*0.5,0]} rotation={[0,0, -Math.PI/2]}/>
 
         </>
 
@@ -39,10 +36,11 @@ export function BoxDimension({name}) {
     )
 }
 
-export function DoubleSidedArrow({content, length, ...prop}:any) {
-    const arrowWidth = 0.1;
+export function DoubleSidedArrow({length, ...prop}:any) {
+    const arrowWidth = 0.05;
     // const content = "hell";
-    const empiricalScaler = 0.08; 
+    const empiricalScaler = 0.05; 
+    const content = (length*3.28).toFixed(1) + "'";
     const bodyLength = 0.5 * (length - empiricalScaler * content.length);
     return (
         <group {...prop} >
@@ -62,7 +60,7 @@ export function DoubleSidedArrow({content, length, ...prop}:any) {
                 points={[[length * 0.5, -arrowWidth * 0.5, 0],[length * 0.5, arrowWidth * 0.5, 0]]}
                 color={color}
             />
-            <Text color={color} anchorX="center" anchorY="middle" fontSize={0.1}>
+            <Text color={color} anchorX="center" anchorY="middle" fontSize={0.05}>
                 {content}
             </Text>
         </group>     
