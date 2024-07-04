@@ -20,8 +20,8 @@ export default function App() {
                     fov: 40,
                 }}
             >
-                <DirectionalLight name="primary" />
-                <DirectionalLight name="secondary" />
+                <DirectionalLight name="primary" positionX={-1.8} color={"f1e0ea"} />
+                <DirectionalLight name="secondary" positionX={-1.6} color={"b9c1da"}/>
                 <ambientLight intensity={0.5} />
                 <Suspense fallback={null}>
                     <Preload all />
@@ -30,7 +30,6 @@ export default function App() {
                 <CameraControl />
                 {process.env.NODE_ENV === "development" && <axesHelper position={[0, 0, 0]} />}
             </Canvas>
-            {/* <Loader /> */}
         </>
     );
 }
@@ -50,9 +49,9 @@ function flatCenter(x: number, cameraMoveThreshold = 0.3) {
 }
 
 function CameraControl() {
-    //pointer xy in [-1,1]
-    //center area has no movement control, product preview area,
-    //pherial area control camera orbital motion
+    // pointer xy in [-1,1]
+    // center area has no movement control, product preview area,
+    // pherial area control camera orbital motion
     useFrame((state, _) => {
         const targetPosition = {    
             x: -flatCenter(state.pointer.x) / 2,

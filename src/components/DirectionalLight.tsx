@@ -7,11 +7,11 @@ let gui: GUI;
 if (process.env.NODE_ENV === "development") {
     gui = new GUI();
 }
-export default function DirectionalLight({ name = "light" }) {
+export default function DirectionalLight({ name, positionX, color}: {name: string, positionX: number, color: string}) {
     const lightRef = useRef<THREE.DirectionalLight>(null);
     const params = {
-        color: "#b9bfb5",
-        x: -1.8,
+        color: color,
+        x: positionX,
     };
 
     useEffect(() => {
@@ -46,9 +46,9 @@ export default function DirectionalLight({ name = "light" }) {
             shadow-camera-bottom={-2}
             shadow-camera-near={0.01}
             shadow-camera-far={6}
-            position={[-1.8, 1.4, 2]}
+            position={[positionX, 1.4, 2]}
             color={"#b9bfb5"}
-            intensity={4.0}
+            intensity={5.0}
         />
     );
 }

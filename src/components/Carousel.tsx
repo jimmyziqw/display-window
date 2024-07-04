@@ -1,31 +1,22 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-
 type SelectableInfo = {
     colors: string[];
 };
-
-const defaultSelectableInfo: SelectableInfo = {
-    colors: ["white"],
-};
-
-const selectableInfos: Record<string, Partial<SelectableInfo>> = {
+const selectableInfos : { [key: string]: SelectableInfo } = {
     desk: { colors: ["pink", "#786e65", "#d5d3d6", "#999fa8"] },
     lamp: { colors: ["#5f6a5e", "#3d5466", "#79a9d2", "#a7ced3"] },
     blossomBase: { colors: ["#d5d3d6", "#999fa8"] },
-    coffeeCup: { colors: ["yellow", "blue"] },
-    coffeePlate: { colors: ["#5f6a5e", "#3d5466", "#79a9d2", "#a7ced3"] },
-};
-const getSelectableInfo = (name: string): SelectableInfo => {
-    const info = selectableInfos[name] || {};
-    return { ...defaultSelectableInfo, ...info };
+    window: { colors: ["#79a9d2", "#a7ced3"] },
+    coffeeCup: { colors: ["#80d3aa", "#d0c4bc", "#18b968", "#ba9082","#f1e2d1"]},
+    laptopBack:{colors: ["#C0C0C0", "#58595B", "#D4AF37", "#B76E79"]}
 };
 
 export function Carousel({ name, setColor }: { name: string; setColor: (color: string) => void }) {
     const groupRef = useRef<THREE.Group>(null);
     const radius = 1.0;
-    const { colors } = getSelectableInfo(name);
+    const colors  = selectableInfos[name]?.colors || ["white"];
     const angle = (2 * Math.PI) / colors.length;
 
     useFrame(() => {

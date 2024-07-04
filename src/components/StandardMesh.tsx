@@ -7,9 +7,10 @@ type StandardMeshProps = {
   color?: string | null;
   selected?: string | null;
   texture?: THREE.Texture | null;
+  props?: (event: React.PointerEvent) => void;
 };
 
-export const StandardMesh = ({ name, color, selected, texture = null }: StandardMeshProps) => {
+export const StandardMesh = ({ name, color, selected, texture = null, ...props}: any) => {
   const mesh = useNode(name);
   const meshRef = useRef(mesh);
   const [currentColor, setCurrentColor] = useState<string | null>(null);
@@ -53,6 +54,7 @@ export const StandardMesh = ({ name, color, selected, texture = null }: Standard
       position={mesh.position}
       rotation={mesh.rotation}
       name={mesh.name}
+      {...props}
     />
   );
 };

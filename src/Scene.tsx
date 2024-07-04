@@ -1,12 +1,11 @@
 import { useCallback, useState } from "react";
-import { EffectComposer, Outline, Select, Selection } from "@react-three/postprocessing";
 import Background from "./components/Background.tsx";
 import useRespondAspectChange from "./utils/useRespondAspectChange.ts";
 import { StandardMesh } from "./components/StandardMesh.tsx";
 import { Carousel } from "./components/Carousel";
 import { ThreeEvent } from "@react-three/fiber";
 import { debounce } from "lodash";
-import { BoxDimension, DoubleSidedArrow } from "./components/DoubleSidedArrow.tsx";
+import { BoxDimension } from "./components/DoubleSidedArrow.tsx";
 export default function Scene() {
     useRespondAspectChange();
     return (
@@ -48,22 +47,19 @@ function InteractableMeshes() {
         document.body.style.cursor = "default";
     };
 
-    const meshNames = ["desk", "lamp", "blossomBase", "coffeeCup", "coffeePlate"];
+    const meshNames = ["desk", "lamp", "blossomBase", "coffeeCup", "window", "laptopBack"];
     return (
         <>
-            <Selection>
-                {meshNames.map((name) => (
-                    <Selectable
-                        name={name}
-                        hovered={hovered}
-                        selected={selected}
-                        pointerOverHandler={pointerOverHandler}
-                        pointerOutHandler={pointerOutHandler}
-                        setSelected={setSelected}
-                    />
-                ))}
-                <Effects selected={selected} hovered={hovered} />
-            </Selection>
+            {meshNames.map((name) => (
+                <Selectable
+                    name={name}
+                    hovered={hovered}
+                    selected={selected}
+                    pointerOverHandler={pointerOverHandler}
+                    pointerOutHandler={pointerOutHandler}
+                    setSelected={setSelected}
+                />
+            ))}
         </>
     );
 }
@@ -78,40 +74,17 @@ function Selectable({
     const [color, setColor] = useState<string | null>(null);
     return (
         <>
-            <Select
-                key={name}
-                enabled={hovered === name}
+            <StandardMesh
+                name={name}
+                color={color}
+                selected={selected}
+                onClick={() => setSelected(name)}
                 onPointerOver={pointerOverHandler(name)}
                 onPointerOut={pointerOutHandler}
-                onClick={() => setSelected(name)}
-            >
-                <StandardMesh name={name} color={color} selected={selected} />
-            </Select>
-            {hovered === name && <BoxDimension name={name}/>}
+            />
+
+            {hovered === name && <BoxDimension name={name} />}
             {selected === name && <Carousel name={name} setColor={setColor} />}
         </>
-    );
-}
-
-function Effects({ selected, hovered }: { selected: string | null; hovered: string | null }) {
-    const selectedObjects = selected ? [selected] : [];
-    const hoveredObjects = hovered && hovered !== selected ? [hovered] : selectedObjects;
-    const visibleEdgeColor =
-        hoveredObjects.length > 0
-            ? hoveredObjects[0] === selected
-                ? 0xffa500
-                : 0xffffff
-            : 0xffffff;
-
-    return (
-        <EffectComposer stencilBuffer multisampling={4} autoClear={false}>
-            <Outline
-                blur
-                edgeStrength={2}
-                width={1000}
-                height={1000}
-                visibleEdgeColor={visibleEdgeColor}
-            />
-        </EffectComposer>
     );
 }

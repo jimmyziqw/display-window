@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { useTexture } from "@react-three/drei";
 import backgroundMaterial from "../materials/backgroundMaterial.ts";
 import useNode from "../utils/useNode.ts";
-import * as THREE from "three";
 
 type objectSetProps = {
     name: string;
@@ -12,9 +11,6 @@ type objectSetProps = {
 export default function Background({ name, texturePath }: objectSetProps) {
     const texture = useTexture(texturePath);
     const node = useNode(name);
-
-    // postprocessing overrides custom shader color space
-    if (texture) texture.colorSpace = THREE.SRGBColorSpace;
 
     const material = useMemo(() => {
         texture.flipY = false;

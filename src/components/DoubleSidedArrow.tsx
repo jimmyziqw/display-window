@@ -20,8 +20,8 @@ export function BoxDimension({name}: {name: string}) {
    
     return (
         <>
-            <DoubleSidedArrow length={width} position={[(maxPoint.x+minPoint.x)*0.5,maxPoint.y+padding,0]}/>
-            <DoubleSidedArrow length={height} position={[maxPoint.x+padding,(maxPoint.y+minPoint.y)*0.5,0]} rotation={[0,0, -Math.PI/2]}/>
+            <DoubleSidedArrow length={width} position={[(maxPoint.x+minPoint.x)*0.5,maxPoint.y+padding,(maxPoint.z+minPoint.z)*0.5]}/>
+            <DoubleSidedArrow length={height} position={[maxPoint.x+padding,(maxPoint.y+minPoint.y)*0.5,(maxPoint.z+minPoint.z)*0.5]} rotation={[0,0, -Math.PI/2]}/>
         </>
 
 
@@ -31,7 +31,7 @@ export function BoxDimension({name}: {name: string}) {
 export function DoubleSidedArrow({length, ...prop}:any) {
     const arrowWidth = 0.05;
     // const content = "hell";
-    const empiricalScaler = 0.05; 
+    const empiricalScaler = 0.03; 
     const content = (length*3.28).toFixed(1) + "'";
     const bodyLength = 0.5 * (length - empiricalScaler * content.length);
     return (
@@ -52,7 +52,7 @@ export function DoubleSidedArrow({length, ...prop}:any) {
                 points={[[length * 0.5, -arrowWidth * 0.5, 0],[length * 0.5, arrowWidth * 0.5, 0]]}
                 color={color}
             />
-            <Text color={color} anchorX="center" anchorY="middle" fontSize={0.05}>
+            <Text color={color} anchorX="center" anchorY="middle" fontSize={0.06}>
                 {content}
             </Text>
         </group>     
