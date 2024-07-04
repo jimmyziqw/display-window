@@ -87,7 +87,6 @@ function Selectable({
             >
                 <StandardMesh name={name} color={color} selected={selected} />
             </Select>
-            {/* { && < DimensionText args={[1,2]}/>} */}
             {hovered === name && <BoxDimension name={name}/>}
             {selected === name && <Carousel name={name} setColor={setColor} />}
         </>
@@ -108,7 +107,7 @@ function Effects({ selected, hovered }: { selected: string | null; hovered: stri
         <EffectComposer stencilBuffer multisampling={4} autoClear={false}>
             <Outline
                 blur
-                edgeStrength={10}
+                edgeStrength={2}
                 width={1000}
                 height={1000}
                 visibleEdgeColor={visibleEdgeColor}
