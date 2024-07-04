@@ -33,8 +33,8 @@ jobs:
 
       - name: Modify index.html paths
         run: |
-          sed -i 's|<script type="module" crossorigin src="/assets/[^"]*"></script>|<script type="module" crossorigin src="./assets/&"></script>|' ./dist/index.html
-          sed -i 's|<link rel="stylesheet" crossorigin href="/assets/[^"]*">|<link rel="stylesheet" crossorigin href="./assets/&">|' ./dist/index.html
+          sed -i 's|<script type="module" crossorigin src="/assets/|<script type="module" crossorigin src="./assets/|' ./dist/index.html
+          sed -i 's|<link rel="stylesheet" crossorigin href="/assets/|<link rel="stylesheet" crossorigin href="./assets/|' ./dist/index.html
 
 
       - name: Deploy to GitHub Pages
