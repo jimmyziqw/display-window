@@ -2,13 +2,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import useNode from "../utils/useNode.ts";
 
-type StandardMeshProps = {
-  name: string;
-  color?: string | null;
-  selected?: string | null;
-  texture?: THREE.Texture | null;
-  props?: (event: React.PointerEvent) => void;
-};
+// type StandardMeshProps = {
+//   name: string;
+//   color?: string | null;
+//   selected?: string | null;
+//   texture?: THREE.Texture | null;
+//   props?: (event: React.PointerEvent) => void;
+// };
 
 export const StandardMesh = ({ name, color, selected, texture = null, ...props}: any) => {
   const mesh = useNode(name);
