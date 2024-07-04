@@ -14,7 +14,6 @@ type ParticleSystemProp = {
 export default function ParticleSystem({
     baseObject,
     particle,
-    instanceRotation = [0, 0, 0],
     instanceNumber = 100,
 }: ParticleSystemProp) {
     const instances = useMemo(() => {
